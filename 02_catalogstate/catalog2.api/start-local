@@ -1,0 +1,2 @@
+#!/bin/sh
+dapr run --app-id catalogapi --components-path ./components.local  --app-port 5054 -- dotnet run
