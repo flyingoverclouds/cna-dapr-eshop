@@ -1,0 +1,76 @@
+﻿@page
+@using front.www.Models;
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Woodgrove Groceries</h1>
+</div>
+<hr/>
+ <section class="section pt-4">
+            <h4 class="font-weight-bold mt-4 title-1" style="letter-spacing: 2px;">
+                <strong>TODAY SPECIALS</strong>
+            </h4>
+            <hr class="mb-5 wg-black" style="border-top: 3px solid rgba(0, 0, 0, .1);">
+            <div class="fadeIn mb-4 row wow" style="animation-name: fadeIn; visibility: visible;">
+                   @foreach (CatalogItem item in ViewBag.Items)
+                   {
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card">
+                                <div class="overlay view">
+                                    <img alt="@item.PictureName" class="card-img-top" src="@item.ProductPictureUrl">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title mb-1">@item.ProductName</h5>
+                                </div>
+                            </div>
+                        </div>     
+                   }
+                   
+                   
+                    @* <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card">
+                            <div class="overlay view">
+                                <img alt="Apples" class="card-img-top" src="https://woodgroveb2cdemo.azurewebsites.net/images/groceries/apples.jpg">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title mb-1">Apples</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card">
+                            <div class="overlay view">
+                                <img alt="Bananas" class="card-img-top" src="https://woodgroveb2cdemo.azurewebsites.net/images/groceries/bananas.jpg">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title mb-1">Bananas</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card">
+                            <div class="overlay view">
+                                <img alt="Oranges" class="card-img-top" src="https://woodgroveb2cdemo.azurewebsites.net/images/groceries/oranges.jpg">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title mb-1">Oranges</h5>
+                            </div>
+                        </div>
+                    </div>
+
+                     <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card">
+                            <div class="overlay view">
+                                <img alt="Bananas" class="card-img-top" src="https://woodgroveb2cdemo.azurewebsites.net/images/groceries/bananas.jpg">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title mb-1">Bananas</h5>
+                            </div>
+                        </div>
+                    </div>
+ *@
+            </div>
+        </section>
