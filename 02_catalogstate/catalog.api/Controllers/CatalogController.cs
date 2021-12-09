@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using catalog.api.Models;
+using Dapr.Client;
+using System.Text;
 
 namespace catalog.api.Controllers;
 
@@ -8,39 +10,73 @@ namespace catalog.api.Controllers;
 public class CatalogController : ControllerBase
 {
     private readonly ILogger<CatalogController> _logger;
+    private readonly IConfiguration _configuration;
+    private readonly DaprClient _daprClient;
 
-    public CatalogController(ILogger<CatalogController> logger)
+    public CatalogController(ILogger<CatalogController> logger,IConfiguration config, DaprClient daprclient)
     {
         _logger = logger;
+        _configuration=config;
+        _daprClient=daprclient;
     }
-
-    //[HttpGet(Name = "GetTime")]
-    [Route("time")]
-    public string GetTime()
-    {
-        return DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToLongTimeString();
-    }
-
 
     //[HttpGet(Name = "GetItems")]
     [Route("items")]
-    public IEnumerable<CatalogItem> GetItems(int count=5)
+    public async Task<IEnumerable<CatalogItem>> GetItems(int count=5)
     {
-        return GetCatalog_Fake();
+        var items = new List<CatalogItem>();
+
+        foreach(var k in new string[] { "1","2","3","4"})
+        {
+            var itm = await _daprClient.GetStateAsync<CatalogItem>(
+                _configuration["catalogStateStoreName"],k);
+            items.Add(itm);
+        }
+        return items;
     }
 
     [Route("item/{id}")]
-    public CatalogItem GetItem(string  id)
+    public async Task<CatalogItem> GetItem(string  id)
     {
-        var item=GetCatalog_Fake().Where( (i) => i.Id==id).FirstOrDefault();
+        var item = await _daprClient.GetStateAsync<CatalogItem>(_configuration["catalogStateStoreName"],id);
         return item; // should return 404 if item==null ...
     }
 
 
+    [Route("reset")]
+    public async Task ResetCatalog()
+    {
+        var catalogStoreName=_configuration["catalogStateStoreName"];
+        var consistency = new StateOptions { Consistency=ConsistencyMode.Strong };
+
+        StringBuilder sb= new StringBuilder();
+        try{
+            await _daprClient.DeleteStateAsync(catalogStoreName,"1",consistency);
+            await _daprClient.DeleteStateAsync(catalogStoreName,"2",consistency);
+            await _daprClient.DeleteStateAsync(catalogStoreName,"3",consistency);
+            await _daprClient.DeleteStateAsync(catalogStoreName,"4",consistency);
+          
+            sb.AppendLine("4 item(s) deleted <br/><br/>");    
+
+            var newDatas=GetCatalogInitDatas();
+            foreach(var i in newDatas)
+            {
+                i.ProductName+=" DAPR";
+                sb.AppendLine($"inserting item {i.Id} / {i.ProductName}<br/>");
+                await _daprClient.SaveStateAsync(catalogStoreName,i.Id,i,consistency);
+            }
+            sb.AppendLine($"{newDatas.Length} item(s) inserted<br/>");    
+        }
+        catch(Exception ex)
+        {
+            sb.AppendLine($"<hr/>ERROR: {ex}");
+        }
+        _logger.LogInformation(sb.ToString());
+    }
 
 
 
-    CatalogItem[] GetCatalog_Fake()
+    CatalogItem[] GetCatalogInitDatas()
     {
         return new CatalogItem[4] {
             new CatalogItem() {
