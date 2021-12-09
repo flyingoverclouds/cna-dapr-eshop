@@ -17,8 +17,7 @@ public class ResetCatalogModel : PageModel
     {
         var newDatas=GetCatalogNewDatas();
         
-        return $"{newDatas.Length} item(s)";
-    }
+        return $"{newDatas.Length} FAKE item(s)";    }
 
     public void OnGet()
     {
