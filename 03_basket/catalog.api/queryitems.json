@@ -1,0 +1,30 @@
+{ 
+    "query": 
+    { 
+        "page" : { 
+            "limit": 2
+        } 
+    } 
+}
+
+
+
+{
+    "results": [
+        {
+            "key":"1",
+            "data": {"pictureName":"Tomate","productAllergyInfo":"None","productId":"1","productName":"Tomate DAPR","productPictureUrl":"https://daprdemores.blob.core.windows.net/images/tomates.jpg?sv=2020-08-04&st=2021-12-08T19%3A52%3A56Z&se=2023-12-09T19%3A52%3A00Z&sr=b&sp=r&sig=Oui%2FK%2BW4B8rB2NaX489kDBtrGBTC3YuGwtJfSEtqhdc%3D","id":"1","ownerId":"999"},
+            "etag":"\"6b018a92-0000-0d00-0000-61b247fb0000\""
+        },
+        {
+            "key":"2",
+            "data":{"productPictureUrl":"https://daprdemores.blob.core.windows.net/images/pain.jpg?sv=2020-08-04&st=2021-12-08T19%3A53%3A35Z&se=2023-12-09T19%3A53%3A00Z&sr=b&sp=r&sig=wK%2Brf2oivheFzW0fWElgAIpJV1g%2F04RvCBVuovURMZ0%3D","id":"2","ownerId":"999","pictureName":"Aubergine","productAllergyInfo":"None","productId":"2","productName":"Aubergine DAPR"},"etag":"\"6b018d92-0000-0d00-0000-61b247fb0000\""},{"key":"3","data":{"productAllergyInfo":"None","productId":"3","productName":"Aubergine DAPR","productPictureUrl":"https://daprdemores.blob.core.windows.net/images/aubergine.jpg?sv=2020-08-04&st=2021-12-08T19%3A48%3A57Z&se=2023-12-09T19%3A48%3A00Z&sr=b&sp=r&sig=Chjd8V7ccVi2SiTYEVqybfnkbFKinNO9yYw0cb0JedI%3D","id":"3","ownerId":"999","pictureName":"Aubergine"},
+            "etag":"\"6b019092-0000-0d00-0000-61b247fb0000\""
+        },
+        {
+            "key":"4",
+            "data": { "productAllergyInfo":"None","productId":"4","productName":"Cola DAPR","productPictureUrl":"https://daprdemores.blob.core.windows.net/images/coca.jpg?sv=2020-08-04&st=2021-12-08T19%3A54%3A20Z&se=2023-12-09T19%3A54%3A00Z&sr=b&sp=r&sig=u6dAhIsaqANxYdic%2FG13Omn%2FsbpFKM55kXLXN4bmnlI%3D","id":"4","ownerId":"999","pictureName":"Cola"},
+            "etag":"\"6b019192-0000-0d00-0000-61b247fb0000\""
+        }
+    ]
+}

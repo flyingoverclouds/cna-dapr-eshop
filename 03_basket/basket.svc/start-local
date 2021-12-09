@@ -1,0 +1,2 @@
+cd MyActorService
+dapr run --app-id basketsvc --app-port 5137 -- dotnet run
