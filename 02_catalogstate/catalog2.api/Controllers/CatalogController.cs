@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using catalog.api.Models;
 using Dapr.Client;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace catalog.api.Controllers;
 
@@ -20,19 +22,38 @@ public class CatalogController : ControllerBase
         _daprClient=daprclient;
     }
 
-    //[HttpGet(Name = "GetItems")]
+
     [Route("items")]
     public async Task<IEnumerable<CatalogItem>> GetItems(int count=5)
     {
-        var items = new List<CatalogItem>();
-
-        foreach(var k in new string[] { "1","2","3","4"})
-        {
-            var itm = await _daprClient.GetStateAsync<CatalogItem>(
-                _configuration["catalogStateStoreName"],k);
-            items.Add(itm);
+        try{
+            string DAPR_HTTP_PORT= System.Environment.GetEnvironmentVariable("DAPR_HTTP_PORT");
+            string query = "{ 'query': { 'pagination' : { 'limit': 6} } }".Replace("'","\"");
+            
+            HttpClient api = new HttpClient();
+            var response = await api.PostAsync(
+                $"http://localhost:{DAPR_HTTP_PORT}/v1.0-alpha1/state/catalogstore/query",
+                new StringContent(query)
+                );
+            var result = await response.Content.ReadAsStringAsync();
+            
+            JsonDocument jdoc = JsonDocument.Parse(result);
+            var results = jdoc.RootElement.GetProperty("results").EnumerateArray();
+            
+            var items = new List<CatalogItem>();
+            while(results.MoveNext())
+            {
+                var prodJson = results.Current.GetProperty("data").ToString();
+                var ci = JsonSerializer.Deserialize<CatalogItem>(prodJson , new JsonSerializerOptions { PropertyNameCaseInsensitive = true} );
+                items.Add(ci);
+            }
+            return items;
         }
-        return items;
+        catch(Exception ex)
+        {
+            _logger.LogError("EXCEPTION",ex);
+            return new List<CatalogItem>();
+        }
     }
 
     [Route("item/{id}")]
