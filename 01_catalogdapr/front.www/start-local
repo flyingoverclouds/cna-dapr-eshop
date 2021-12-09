@@ -1,0 +1,2 @@
+#!/bin/sh
+dapr run --app-id frontwww -- dotnet run
