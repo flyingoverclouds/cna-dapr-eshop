@@ -82,7 +82,7 @@ public class CatalogController : ControllerBase
             var newDatas=GetCatalogInitDatas();
             foreach(var i in newDatas)
             {
-                i.ProductName+=" DAPR";
+                //i.ProductName+=" DAPR";
                 sb.AppendLine($"inserting item {i.Id} / {i.ProductName}<br/>");
                 await _daprClient.SaveStateAsync(catalogStoreName,i.Id,i,consistency);
             }

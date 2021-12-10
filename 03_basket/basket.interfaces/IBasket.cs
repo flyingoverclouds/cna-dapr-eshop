@@ -7,6 +7,7 @@ public interface IBasket : IActor
 {
     Task AddProductAsync(string productId, int quantity);
     Task RemoveProductAsync(string productId);
+    Task ClearAsync();
 
     Task<BasketContent> GetBasket();
 }

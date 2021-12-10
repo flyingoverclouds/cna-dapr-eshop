@@ -21,7 +21,8 @@
                                     <img alt="@ViewBag.Item.PictureName" class="card-img-top" src="@ViewBag.Item.ProductPictureUrl">
                                 </div>
                                 <div class="card-body">
-                                    <h5 class="card-title mb-1">@ViewBag.Item.ProductName</h5>
+                                    <p><h5 class="card-title mb-1">@ViewBag.Item.ProductName</h5> </p>
+                                    <a class="btn btn-secondary" style="margin-left: 10px;" href="/BasketAdd?id=@ViewBag.Item.Id">Add to cart</a>
                                 </div>
                             </div>
                         </div>     

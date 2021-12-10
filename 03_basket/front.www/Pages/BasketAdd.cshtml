@@ -1,0 +1,18 @@
+﻿@page
+@using front.www.Models;
+@model BasketAddModel
+@{
+    ViewData["Title"] = "Add to cart";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Woodgrove Groceries</h1>
+</div>
+<hr/>
+ <section class="section pt-4">
+            <h4 class="font-weight-bold mt-4 title-1" style="letter-spacing: 2px;">
+                <strong>Add to cart</strong>
+            </h4>
+            <hr class="mb-5 wg-black" style="border-top: 3px solid rgba(0, 0, 0, .1);">
+            <img src="@ViewBag.Item.ProductPictureUrl" style="max-height: 28px;"/> [@ViewBag.Item.ProductName] added to cart.
+        </section>
