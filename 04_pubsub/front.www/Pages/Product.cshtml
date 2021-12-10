@@ -1,0 +1,30 @@
+﻿@page
+@using front.www.Models;
+@model ProductModel
+@{
+    ViewData["Title"] = "Product";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Woodgrove Groceries</h1>
+</div>
+<hr/>
+ <section class="section pt-4">
+            <h4 class="font-weight-bold mt-4 title-1" style="letter-spacing: 2px;">
+                <strong>@ViewBag.Item.ProductName</strong>
+            </h4>
+            <hr class="mb-5 wg-black" style="border-top: 3px solid rgba(0, 0, 0, .1);">
+            <div class="fadeIn mb-4 row wow" style="animation-name: fadeIn; visibility: visible;">
+                        <div class="col-lg-12 col-md-12 mb-12">
+                            <div class="card">
+                                <div class="overlay view">
+                                    <img alt="@ViewBag.Item.PictureName" class="card-img-top" src="@ViewBag.Item.ProductPictureUrl">
+                                </div>
+                                <div class="card-body">
+                                    <p><h5 class="card-title mb-1">@ViewBag.Item.ProductName</h5> </p>
+                                    <a class="btn btn-secondary" style="margin-left: 10px;" href="/BasketAdd?id=@ViewBag.Item.Id">Add to cart</a>
+                                </div>
+                            </div>
+                        </div>     
+            </div>
+        </section>

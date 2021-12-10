@@ -1,0 +1,18 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata: 
+  name: catalogstore
+spec: 
+  type: state.azure.cosmosdb
+  version: v1
+  initTimeout: 20s
+  metadata:
+  - name: url
+    value: https://cnadapreshop-dev.documents.azure.com:443/
+  - name: masterKey
+    value: Sw75e3KvFRJn4HpgCXCoIAsGavIxBDEQh2HbbPulHmoYpWwqvqrSyKvtPnoJ0KiDR0qJ0oerNRGhZ0DYqfiU6g==
+  - name: database
+    value: dapreshop
+  - name: collection
+    value: catalog
+
