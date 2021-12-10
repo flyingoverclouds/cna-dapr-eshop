@@ -27,7 +27,7 @@ public class BasketModel : PageModel
 
     public async Task  OnGet()
     {
-        var basketId=new ActorId("1"); // TODO : replace a cookie set on 1st call id needed
+        var basketId=new ActorId("2"); // TODO : replace a cookie set on 1st call id needed
         var proxy = ActorProxy.Create<IBasket>(basketId,"BasketActor");
         await proxy.AddProductAsync(Request.Query["id"],1);
         var basket = await proxy.GetBasket();
@@ -47,9 +47,9 @@ public class BasketModel : PageModel
                     basketContent.Add(new Tuple<CatalogItem, int>(itm,bi.Quantity));
             }
             else
-            _logger.LogWarning($"#[{basketId}] invalid basket : No product ID on a line !!");
+                _logger.LogWarning($"#[{basketId}] invalid basket : No product ID on a line !!");
         }
+        
         ViewData["basket"]=basketContent;
-
     }
 }

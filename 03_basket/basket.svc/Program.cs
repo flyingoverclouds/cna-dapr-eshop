@@ -1,6 +1,8 @@
+
 using basketsvc;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDaprClient();
 builder.Services.AddActors(
     options => {
         options.Actors.RegisterActor<BasketActor>();

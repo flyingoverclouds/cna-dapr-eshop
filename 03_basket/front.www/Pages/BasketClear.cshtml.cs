@@ -27,7 +27,7 @@ public class BasketClearModel : PageModel
 
     public async Task  OnGet()
     {
-        var basketId=new ActorId("1"); // todo : replace a cookie set on 1st call id needed
+        var basketId=new ActorId("2"); // todo : replace a cookie set on 1st call id needed
         var proxy = ActorProxy.Create<IBasket>(basketId,"BasketActor");
         await proxy.ClearAsync();
     }

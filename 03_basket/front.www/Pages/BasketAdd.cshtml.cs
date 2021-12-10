@@ -34,10 +34,8 @@ public class BasketAddModel : PageModel
         );
         ViewData["Item"]= itm;
 
-        var basketId=new ActorId("1"); // TODO : replace a cookie set on 1st call id needed
+        var basketId=new ActorId("2"); // TODO : replace a cookie set on 1st call id needed
         var proxy = ActorProxy.Create<IBasket>(basketId,"BasketActor");
         await proxy.AddProductAsync(Request.Query["id"],1);
-        var b = await proxy.GetBasket();
-        _logger.LogWarning($"Nb de ligne dans le panier {b.Items.Count}");
     }
 }

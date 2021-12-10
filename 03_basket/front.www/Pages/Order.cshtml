@@ -1,6 +1,6 @@
 ﻿@page
 @using front.www.Models;
-@model BasketModel
+@model OrderModel
 @{
     ViewData["Title"] = "Basket";
 }
@@ -11,20 +11,8 @@
 <hr/>
  <section class="section pt-4">
             <h4 class="font-weight-bold mt-4 title-1" style="letter-spacing: 2px;">
-                <strong>Order confirmed : @Guid.NewGuid() </strong>
+                <strong>Order confirmed : @ViewBag.order.Id </strong>
             </h4>
             <hr class="mb-5 wg-black" style="border-top: 3px solid rgba(0, 0, 0, .1);">
-            @* <ul class="list-group">
-            @foreach (var basketline in ViewBag.basket)
-            {
-                <li class="list-group-item">
-                    <h6> [ @basketline.Item2 ] 
-                        <img src="@basketline.Item1.ProductPictureUrl" style="max-height: 28px;"/>
-                        @basketline.Item1.ProductName</h6>
-                </li>
-            }
-            </ul>
-            <br/>
-            <a class="btn btn-success" href="/OrderCreate"> Order basket content </a>
-            <a class="btn btn-warning" href="/BasketClear"> Clear </a> *@
+            Not implemented
         </section>
