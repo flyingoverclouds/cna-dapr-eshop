@@ -1,0 +1,2 @@
+#!/bin/sh
+dapr run --app-id orderprocessorapi --components-path ./components.local  --app-port 5251 -- dotnet run

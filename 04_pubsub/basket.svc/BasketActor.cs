@@ -145,13 +145,14 @@ internal  class BasketActor : Actor, IBasket
             neworder.Lines.Add(line);
         }
         
-        // try {
-        //     await _daprClient.PublishEventAsync<Order>("orderstatestore","neworder",neworder);
-        // }
-        // catch(Exception ex)
-        // {
-        //     Console.WriteLine($"#[{this.Id}] ERROR publishEvent : {ex}");
-        // }
+        try {
+            await _daprClient.PublishEventAsync("orderpubsub","neworder",neworder);
+            Console.WriteLine($"#[{this.Id}] {neworder.Id} : order emitted.");
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine($"#[{this.Id}] ERROR publishEvent : {ex}");
+        }
         await this.StateManager.TryRemoveStateAsync("basketcontent");
         return neworder;
     }
