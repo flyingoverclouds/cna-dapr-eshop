@@ -3,15 +3,21 @@ using Dapr.Actors.Runtime;
 using Basket.Interfaces;
 using System;
 using System.Threading.Tasks;
+using basket.svc.Models;
 
 namespace basketsvc;
 
 internal  class BasketActor : Actor, IBasket
 {
     private readonly Dapr.Client.DaprClient _daprClient;
-    public BasketActor( ActorHost host , Dapr.Client.DaprClient daprclient ) : base (host)
+    private IConfiguration _configuration;
+    public BasketActor( ActorHost host , 
+                        IConfiguration configuration, 
+                        Dapr.Client.DaprClient daprclient 
+                    ) : base (host)
     {
         this._daprClient=daprclient;
+        this._configuration=configuration;
     }
 
     // protected override Task OnActivateAsync()
@@ -80,51 +86,6 @@ internal  class BasketActor : Actor, IBasket
         await this.StateManager.TryRemoveStateAsync("basketcontent");
     }
 
-    public async Task<Order> CreateOrder()
-    {
-        Console.WriteLine($"#[{this.Id}] CreateOrder() ");
-
-        if (_daprClient==null)
-        {
-            Console.WriteLine("DAPR CLIENT IS NULL !!!");
-        } 
-        else
-        {
-            Console.WriteLine("daprclient is ok");
-        }
-
-        var bc = await this.StateManager.TryGetStateAsync<BasketContent>("basketcontent");
-        if (!bc.HasValue)
-        {
-            Console.WriteLine($"#[{this.Id}] NO BASKET -> NO ORDER !");
-            return null;
-        }
-        var b = bc.Value;
-
-        var neworder = new Order() { 
-            Id=Guid.NewGuid().ToString(),
-            BasketId=b.Id,
-            Lines=new List<OrderLine>() 
-        };
-        foreach(var bl in b.Items)
-        {
-            
-            var line = new OrderLine(){
-                ProductId = bl.ProductId,
-                Quantity = bl.Quantity,
-                PuHT = 1.0F,
-            };
-            line.TVA = (line.Quantity * line.PuHT)*.196F;
-            line.TTC = (line.Quantity * line.PuHT) + line.TVA;
-            neworder.Lines.Append(line);
-        }
-
-        // TODO PUSH Order in Queue
-
-        await this.StateManager.TryRemoveStateAsync("basketcontent");
-
-        return neworder;
-    }
     public async Task<BasketContent> GetBasket()
     {
         Console.WriteLine($"#[{this.Id}] GetBasket() ");
@@ -139,6 +100,53 @@ internal  class BasketActor : Actor, IBasket
                 };
             return b;
         }
+    }
+
+
+    public async Task<Order> CreateOrder()
+    {
+        Console.WriteLine($"#[{this.Id}] CreateOrder() ");
+
+        var bc = await this.StateManager.TryGetStateAsync<BasketContent>("basketcontent");
+        if (!bc.HasValue)
+        {
+            Console.WriteLine($"#[{this.Id}] NO BASKET -> NO ORDER !");
+            return null;
+        }
+        var b = bc.Value;
+
+        var neworder = new Order() { 
+            Id=Guid.NewGuid().ToString(),
+            BasketId=b.Id,
+            Lines=new List<OrderLine>() ,
+            HT=0,
+            TVA=0,
+            TTC=0
+        };
+        foreach(var bl in b.Items)
+        {
+            var itm=await _daprClient.InvokeMethodAsync<CatalogItem?>(
+                HttpMethod.Get,
+                "catalogapi",
+                "catalog/item/"+bl.ProductId
+            );
+
+            var line = new OrderLine(){
+                ProductId = bl.ProductId,
+                Description = itm.ProductName,
+                Quantity = bl.Quantity,
+                PuHT = 1.0F,
+            };
+            line.TVA = (line.Quantity * line.PuHT)*.196F;
+            line.TTC = (line.Quantity * line.PuHT) + line.TVA;
+            neworder.HT+=line.Quantity* line.PuHT;
+            neworder.TVA+=line.TVA;
+            neworder.TTC+=line.TTC;
+            neworder.Lines.Add(line);
+        }
+
+        // TODO PUSH Order in Queue
+        return neworder;
     }
 
 }

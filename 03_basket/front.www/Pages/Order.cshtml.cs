@@ -30,7 +30,6 @@ public class OrderModel : PageModel
         var basketId=new ActorId("2"); // TODO : replace by the cookie set on 1st call id needed
         var proxy = ActorProxy.Create<IBasket>(basketId,"BasketActor");
         await proxy.AddProductAsync(Request.Query["id"],1);
-
         var order = await proxy.CreateOrder();
 
         ViewData["order"]=order;

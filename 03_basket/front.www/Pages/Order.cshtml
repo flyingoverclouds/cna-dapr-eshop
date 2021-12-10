@@ -1,5 +1,7 @@
 ﻿@page
 @using front.www.Models;
+@using System.Globalization;
+
 @model OrderModel
 @{
     ViewData["Title"] = "Basket";
@@ -13,6 +15,51 @@
             <h4 class="font-weight-bold mt-4 title-1" style="letter-spacing: 2px;">
                 <strong>Order confirmed : @ViewBag.order.Id </strong>
             </h4>
-            <hr class="mb-5 wg-black" style="border-top: 3px solid rgba(0, 0, 0, .1);">
-            Not implemented
+            
+            <hr class="mb-5 wg-black" style="border-top: 3px solid rgba(0, 0, 0, .1);"/>
+            
+            <table class="table table-striped table-bordered table-hover table-sm">
+                 <thead>
+                  <tr>
+                    <th scope="col" style="width: 60%;">Produit</th>
+                    <th scope="col">Qté</th>
+                    <th scope="col">HT</th>
+                    <th scope="col">TVA</th>
+                    <th scope="col">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                @foreach (var l in ViewBag.order.Lines)
+                {
+                  <tr>
+                    <td scope="row">@l.Description</td>
+                    <td>@l.Quantity</td>
+                    <td>@String.Format(new CultureInfo("fr-FR"),"{0:C}",l.PuHT)</td>
+                    <td>@String.Format(new CultureInfo("fr-FR"),"{0:C}",l.TVA)</td>
+                    <td>@String.Format(new CultureInfo("fr-FR"),"{0:C}",l.TTC)</td>
+                  </tr>
+                }
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-8">                    
+                </div>
+                <div class="col-4">
+                <table class="table table-striped table-bordered table-sm">
+                <tbody>
+                  <tr>
+                    <td>Total HT :</td>
+                    <td>@String.Format(new CultureInfo("fr-FR"),"{0:C}",ViewBag.order.HT)</td>
+                  </tr>
+                  <tr>
+                    <td>Total TVA :</td>
+                    <td>@String.Format(new CultureInfo("fr-FR"),"{0:C}",ViewBag.order.TVA)</td>
+                  </tr>
+                  <tr>
+                    <td>Total TTC :</td>
+                    <td>@String.Format(new CultureInfo("fr-FR"),"{0:C}",ViewBag.order.TTC)</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
         </section>

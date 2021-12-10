@@ -36,7 +36,7 @@ public class Order
 {
     public string Id { get; set; }
     public string BasketId { get; set; }
-    public IEnumerable<OrderLine>  Lines { get; set; }
+    public List<OrderLine>  Lines { get; set; }
     public float HT { get; set; }
     public float TVA { get; set; }
     public float TTC { get; set; }
@@ -45,6 +45,8 @@ public class Order
 public class OrderLine
 {
     public string ProductId { get; set; }
+
+    public string Description { get; set; }
     public int Quantity { get; set; }
     public float PuHT { get; set; }    
     public float TVA { get; set; }
