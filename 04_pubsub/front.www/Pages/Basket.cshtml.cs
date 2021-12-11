@@ -49,7 +49,8 @@ public class BasketModel : PageModel
             else
                 _logger.LogWarning($"#[{basketId}] invalid basket : No product ID on a line !!");
         }
-        
         ViewData["basket"]=basketContent;
+
+        ViewData["BasketAge"]=(int)(DateTime.Now - basket.LastUpdate).TotalSeconds;
     }
 }

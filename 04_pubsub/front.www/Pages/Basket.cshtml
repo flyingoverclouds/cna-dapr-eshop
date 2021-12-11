@@ -27,7 +27,9 @@
             <br/>
             @if (ViewBag.basket.Count>0) {
                 <a class="btn btn-success" href="/Order"> Order basket content </a>
-                <a class="btn btn-warning" href="/BasketClear"> Clear </a>
+                <a class="btn btn-warning" href="/BasketClear"> Clear </a><br/>
+                <span style="font-size: smaller;">Last update @ViewBag.BasketAge second(s) ago.</span>
+
             } else
             {
                 <h6>Empty</h6>
