@@ -84,6 +84,7 @@ internal  class BasketActor : Actor, IBasket
     {
         Console.WriteLine($"#[{this.Id}] ClearAsync()");
         await this.StateManager.TryRemoveStateAsync("basketcontent");
+        
     }
 
     public async Task<BasketContent> GetBasket()
