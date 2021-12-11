@@ -169,7 +169,7 @@ internal  class BasketActor : Actor, IBasket
                 nameof(OnBasketTtlTimerCallBack),
                 null, // user state
                 TimeSpan.FromSeconds(30), // first call after X seconds
-                TimeSpan.FromSeconds(120)  // repeat every Y seconds
+                TimeSpan.FromSeconds(10)  // repeat every Y seconds
             );
     }
 
