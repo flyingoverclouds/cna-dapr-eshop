@@ -93,8 +93,8 @@ public class CatalogController : ControllerBase
                 OwnerId="999",
                 ProductId="2",
                 ProductAllergyInfo="None",
-                PictureName="Aubergine",
-                ProductName= "Aubergine",
+                PictureName="Pain",
+                ProductName= "Pain",
                 ProductPictureUrl="https://daprdemores.blob.core.windows.net/images/pain.jpg?sv=2020-08-04&st=2021-12-08T19%3A53%3A35Z&se=2023-12-09T19%3A53%3A00Z&sr=b&sp=r&sig=wK%2Brf2oivheFzW0fWElgAIpJV1g%2F04RvCBVuovURMZ0%3D"
             },new CatalogItem() {
                 Id="3",
